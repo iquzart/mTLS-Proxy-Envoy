@@ -26,11 +26,10 @@ static_resources:
               domains:
               - "*"
               routes:
-              # Match on host (:authority in HTTP2) headers
               - match:
                   prefix: "/"
                 route:
-                  # Send request to an endpoint in the Google cluster
+                  # Send request to an endpoint in the API cluster
                   cluster: api
           http_filters:
           - name: envoy.router
@@ -38,7 +37,7 @@ static_resources:
   clusters:
   - name: api
     connect_timeout: 1s
-    # Instruct Envoy to continouously resolve DNS of www.google.com asynchronously
+    # Instruct Envoy to continouously resolve DNS of backend asynchronously
     type: logical_dns 
     dns_lookup_family: V4_ONLY
     lb_policy: round_robin
